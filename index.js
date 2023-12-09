@@ -6,28 +6,37 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
-let img;
+let images = [];
+let currentImageIndex = 0;
 let x, y;
 let xSpeed, ySpeed;
 let divWidth, divHeight;
+let initialPositionSet = false;
 
 function preload() {
-  img = loadImage("resources/monchen.png"); // Replace with the path to your image
+  images.push(loadImage('resources/fotos_kiev/kiev1.png'));
+  images.push(loadImage('resources/fotos_kiev/kiev2.png')); 
+  images.push(loadImage('resources/fotos_kiev/kiev3.png')); 
+  images.push(loadImage('resources/fotos_kiev/kiev4.png')); 
 }
 
 function setup() {
-  divWidth = document.getElementById("canvas-container").clientWidth;
-  divHeight = document.getElementById("canvas-container").clientHeight;
+  divWidth = document.getElementById('canvas-container').clientWidth;
+  divHeight = document.getElementById('canvas-container').clientHeight;
 
-  createCanvas(divWidth, divHeight).parent("canvas-container");
+  createCanvas(divWidth, divHeight).parent('canvas-container');
 
-  x = divWidth / 2;
-  y = divHeight / 2;
+  // Set initial position randomly within the canvas
+  x = random(images[currentImageIndex].width / 2, divWidth - images[currentImageIndex].width / 2);
+  y = random(images[currentImageIndex].height / 2, divHeight - images[currentImageIndex].height / 2);
 
-  xSpeed = 5;
+  xSpeed = 3;
   ySpeed = 3;
 
-  img.resize(80, 0);
+  // Resize the images to a smaller size
+  for (let i = 0; i < images.length; i++) {
+    images[i].resize(150, 0);
+  }
 }
 
 function draw() {
@@ -37,15 +46,29 @@ function draw() {
   x += xSpeed;
   y += ySpeed;
 
-  if (x > divWidth - img.width / 2 || x < img.width / 2) {
+  if (!initialPositionSet) {
+    // Set the initial position only once
+    x = constrain(x, images[currentImageIndex].width / 2, divWidth - images[currentImageIndex].width / 2);
+    y = constrain(y, images[currentImageIndex].height / 2, divHeight - images[currentImageIndex].height / 2);
+    initialPositionSet = true;
+  }
+
+  if (x > divWidth - images[currentImageIndex].width / 2 || x < images[currentImageIndex].width / 2) {
     xSpeed *= -1;
+    changeImage();
   }
 
-  if (y > divHeight - img.height / 2 || y < img.height / 2) {
+  if (y > divHeight - images[currentImageIndex].height / 2 || y < images[currentImageIndex].height / 2) {
     ySpeed *= -1;
+    changeImage();
   }
 
-  // Display the image at the current position
+  // Display the current image at the current position
   imageMode(CENTER);
-  image(img, x, y);
+  image(images[currentImageIndex], x, y);
+}
+
+function changeImage() {
+  // Change to the next image in sequence
+  currentImageIndex = (currentImageIndex + 1) % images.length;
 }
