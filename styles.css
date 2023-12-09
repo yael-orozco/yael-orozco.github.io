@@ -1,7 +1,7 @@
 body {
     margin: 0; /* Remove default margin */
     padding: 0; /* Remove default padding */
-    background-image: url('background.jpg');
+    background-image: url('resources/background.jpg');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
