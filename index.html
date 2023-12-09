@@ -13,10 +13,21 @@
     />
     <link rel="stylesheet" href="styles.css">
     <title>Yael Orozco Lugo</title>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+          let elementsToAnimate = document.querySelectorAll('.animate-on-load');
+      
+          elementsToAnimate.forEach(function (element) {
+            element.classList.add('active');
+          });
+        });
+      </script>
+      
 </head>
 <body>
     <div class="fullViewport center-content">
-        <div class="mainText animate__animated animate__zoomIn">Hello, my name is Yael Orozco Lugo</div>
+        <div class="mainText animate__animated animate__zoomIn animate-on-load">Hello, my name is Yael Orozco Lugo</div>
     </div>
 </body>
 </html>
